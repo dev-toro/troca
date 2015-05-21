@@ -1,0 +1,38 @@
+
+{% extends "foundation/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}troca.beta | Configuración{% endblock title %}
+
+{% block base_body %}
+
+<!-- TOP BANNER DETAILS -->
+
+<div class="botborder" >
+    <div class="row ptb25 mrl20">
+        
+        <h1>Configuración</h1>
+        <p class="paragraph">Perfil de usuario <i class="fa fa-angle-right"></i><a href=""> {{ user.username }}</a></p>
+
+    </div>
+</div>
+<div class="bkg-white-main" >
+    <div class="row pb25 mrl20">
+
+    	{% crispy form %}
+        
+    </div>
+</div>
+
+<script>
+    $( document ).ready(function() {
+        var u = $( "#div_id_avatar_url > a:nth-child(2)" ).text()
+        var image_url = "/media/" + u
+        var _html = "<p>Imagen del perfil:</p><a class='th mb15' href=''> <div class='img-container-user' style='background-image: url(" + image_url + ");'></div> </a>"
+        $("#div_id_avatar_url").html(_html)
+        //$( "#div_id_avatar_url > a:nth-child(2)" ).html(_html);
+    });
+    
+</script>
+
+{% endblock base_body %}

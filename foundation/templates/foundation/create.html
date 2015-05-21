@@ -1,0 +1,50 @@
+{% extends "foundation/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}troca.beta | Crear habilidad{% endblock title %}
+
+{% csrf_token %} 
+
+{% block base_body %}
+
+<!-- TOP BANNER DETAILS -->
+
+{% block body_header %}
+<div class="botborder" >
+    <div class="row ptb25 mrl20">
+        
+        <h1>Crea un proyecto</h1>
+        <p class="paragraph">Es importante que completes todos los campos, así tu proyecto tendrá una mejor recepción</p>
+
+    </div>
+</div>
+{% endblock body_header %}
+
+<div class="bkg-white-main" >
+    <div class="row pb25 mrl20">
+    
+        {% crispy form %}          
+        
+        <script>
+        
+              $( '#id_expire_date' ).datepicker({
+                                                    dateFormat: "dd/mm/yy",
+                                                    firstDay: 1,
+                                                    dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+                                                    dayNamesShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+                                                    monthNames:
+                                                    ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
+                                                    "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+                                                    monthNamesShort:
+                                                    ["Ene", "Feb", "Mar", "Abr", "May", "Jun",
+                                                    "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+                                                    });
+               
+             
+               $('#id_content').editable({inlineMode: false,theme: 'troca', placeholder: 'Cuéntanos en detalle de que se trata tu proyecto...', buttons: ['undo', 'redo' , 'sep', 'bold', 'italic', 'underline', 'fontSize',  "formatBlock", "align", 'sep', 'createLink', 'insertImage', 'insertVideo', 'sep', 'html' ],  })
+                        
+       </script>
+    </div>
+</div>
+
+{% endblock base_body %}

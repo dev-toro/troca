@@ -1,0 +1,23 @@
+{% extends "postman/base_folder.html" %}
+{% load i18n %}
+{% block pm_folder_title %}{% trans "Sent Messages" %}{% endblock %}
+
+    {% block postman_menu %}
+        <div class="botborder" >
+         <div class="row ptb25 mrl20" id="menu">
+            <h1>Buzón de mensajes</h1>
+            <dl class="sub-nav" >
+             <dd><a href="{% url 'postman_inbox' %}">{% trans "Recibidos" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></dd>
+             <dd class="active"><a href="{% url 'postman_sent' %}">{% trans "Mensajes enviados" %}</a></dd>
+             <dd><a href="{% url 'postman_write' %}">{% trans "Escribe" %}</a></dd>
+             <dd><a href="{% url 'postman_archives' %}">{% trans "Archivo" %}</a></dd>
+             <dd><a href="{% url 'postman_trash' %}">{% trans "Papelera" %}</a></dd>
+            </dl>
+        </div>
+    </div>
+    {% endblock %}
+    
+{% block pm_undelete_button %}{% endblock %}
+{% block pm_sender_header %}{% endblock %}
+{% block pm_date %}{% trans "Sent" %}{% endblock %}
+{% block pm_sender_cell %}{% endblock %}

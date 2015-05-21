@@ -1,0 +1,115 @@
+{% extends "foundation/base.html" %}
+
+{% block title %}troca.beta | Descubre proyectos {% endblock title %}
+
+{% block base_body %}
+
+{% block cat_header %}
+<div class="botborder" >
+      <div class="row ptb25 mrl20">
+        <h1>Descubre proyectos</h1>
+        <p class="paragraph">¡Navega através de las <b>necesidades</b> para encontrar otros proyectos!</p>
+
+        <ul class="button-group">
+
+{% for key, values in categories.items %} 
+    {% for x in values %}
+     <li><a href="/descubre/{{ key.slug }}" class="button radius secondary">{{ key.title }} ( {{ x }} )</a></li>
+    {% endfor %}
+{% endfor %}
+
+        </ul>
+    </div>
+</div>
+{% endblock cat_header %}
+
+<div class="bkg-white-main">
+ 
+     <div id="sorts" class="row sub-filter">
+                
+        <dl class="sub-nav right"> 
+            <dt><i class="fa fa-sort"></i> Ordenar:</dt> 
+            <dd data-sort-by="date" class="active"><a>Recientes</a></dd> 
+            <dd data-sort-by="rate" ><a>Puntaje</a></dd> 
+        </dl>
+        
+    {% if not hasProfile%}
+    <div data-alert class="alert-box alert radius"> <i class="fa fa-meh-o"></i> ¡Aún no has completado la información mínima de tu perfil! Para obtener mejores resultados complétalo <a href="/register/perfil/" class="white-main"><b>acá</b></a><a href="#" class="close">&times;</a></div>
+    {% endif %}
+        
+    </div>
+           
+     <div id="container" class="row mb40">   
+    
+        {% for project in object_list %} 
+        {% include "foundation/category_view_page.html" with object=project  %}
+        {% empty %}
+        <h6 class="subheader text-center"><i class="fa fa-life-ring"></i> Aún no hay proyectos en esta categoría</h6>
+        {% endfor %} 
+        
+    </div>
+    
+        {% include "foundation/_pagination.html"  %}   
+    
+</div>
+
+
+    <script type="text/javascript">
+    
+        // ------ Start isotope
+    
+    $('#container').isotope({
+        itemSelector: '.project_container',
+          getSortData: {
+            rate: '.rate parseInt',
+             date: function( itemElem ) { // function
+              var _date = $( itemElem ).find('.date').text();
+              return Date.parse(_date);
+            }
+            }
+    });
+    
+    // ------ Sorting options
+    
+    $('#sorts').on( 'click', 'dd', function() {
+      $('#sorts').find("dd").removeClass("active")
+      $(this).addClass( "active" )
+      var sortByValue = $(this).attr('data-sort-by');
+      $('#container').isotope({ sortBy: sortByValue, sortAscending: false });
+    });
+    
+    $( document ).ready(function() {
+        
+        
+        // ------ FIX || Display only one alert of colaboration
+                                        
+        $( ".colabOptions" ).each(function( index ) {
+                                            
+            $( this ).children().first().removeClass('hidden');
+                                        
+        });
+        
+        // ------ HOVER || on every poject main image
+        
+        $( ".img-container2-panel" ).each(function( index ) {
+                                            
+            $( this ).hover(function() {
+                    $( this ).find(".overlay").fadeIn();
+                }, function() {
+                    $( this ).find(".overlay").fadeOut();
+                }
+            );
+                                        
+        });
+        
+                // ------ Sort isotope wall bt date (DEFAULT OPTION)
+        
+        $('#container').isotope({ sortBy : 'date', sortAscending: false });
+        
+        
+    });
+    
+
+    </script>
+
+{% endblock base_body %}

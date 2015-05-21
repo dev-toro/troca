@@ -1,0 +1,72 @@
+{% load phileo_tags %}
+	
+	<div class="large-4 medium-6 project_container columns">
+		<div class="panel project_thumb white-main">
+
+            <a href="/proyecto/{{ project.user }}/{{ project.slug }}">
+                <div class="img-container2-panel" style="background-image: url('{{ project.thumbnail_url.url_700x700 }}');">
+                    <div class="overlay hidden"><i class="fa fa-search"></i></div>                  
+                </div>
+           </a>
+
+			<div class="pad15">
+						<h4><a href="/proyecto/{{ project.user }}/{{ project.slug }}" class="black-a">{{ project.title }}</a> <small>
+    				    
+    				    {% if user.is_authenticated %} 
+                            {% ifequal user.username project.user.username %}
+                                <span data-tooltip aria-haspopup="true" class="has-tip"title="Editar el proyecto">
+                                    <a href="/proyecto/editar/{{ project.user.username }}/{{ project.slug }}"><i class="fa fa-pencil-square-o red-main"></i></a>
+                                </span>
+                            {% endifequal %}
+                        {% endif %}  
+                           
+                        <i id="like" class="fa fa-heart-o"></i> {{ object|likes_count }}
+                        </small></h4>
+
+						<h6 class="subheader small">Publicado por <a href="/perfil/{{ project.user.id }}"class="user-link">{{ object.user }}</a> </h6>
+                        <p>{{ object.summary }}</p>
+
+						<div class="progress"><span class="meter" style="width: {{ object.num_needs }}%"></span></div>
+						
+						<ul class="no-bullet"> 
+							<li><p class="small"><i class="fa fa-check-square-o"></i>
+ El proyecto ha suplido el {{ object.num_needs }}% de sus necesidades</p></li>
+							<li><p class="small"><i class="fa fa-calendar"></i>
+ El proyecto termina en {{ object.expire_date|timeuntil }}</p></li>
+						</ul>	
+						
+				
+						<!-- CHECK COINCIDENCES -->
+						{% if user.is_authenticated and hasProfile and object.num_needs < 100 %}
+						
+                            <div class="colabOptions">
+                            
+                                {% for x in loggedUser.category.all %} <!-- Logged user's TENGOS -->
+                                  {% for y in project.category.all %} <!-- Porject's NECESITOS -->
+                                      {% ifequal x.slug y.slug %}
+                                         
+                                            <div data-alert class="alert-box success radius hidden"><i class="fa fa-smile-o"></i> Existe posibilidad de colaboración<a href="#" class="close">&times;</a></div>
+                                         
+                                      {% endifequal %}
+                                  {% endfor %} 
+                                {% endfor %}
+                                
+                            </div>
+                            
+                         {% endif %}
+
+                            <ul class="meta">
+                                <li class="date">{{ project.date|date:"SHORT_DATE_FORMAT" }}</li>
+                                <li class="rate">{{ project|likes_count }}</li>
+                                <li class="expire">{{ project.expire_date }}</li>
+                                <ul class="project-needs">
+                                       {% for cat in project.category.all %} 
+                                        <li>{{ cat.slug }}</li>
+                                       {% endfor %} 
+                                </ul>
+                            </ul>
+
+			</div>
+		</div>
+
+	</div>

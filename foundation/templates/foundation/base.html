@@ -1,0 +1,207 @@
+{% load staticfiles %}
+{% load postman_tags %}
+
+
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+    
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-62933905-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block meta %}{% endblock meta %}
+    {% block base_title %}
+    <title>{% block title %}troca.beta{% endblock title %}</title>
+    <link rel="shortcut icon" href="{% static "foundation/img/favicon.ico" %}"/>
+    {% endblock base_title %}
+
+    {# Base Foundation CSS #}
+    {% block foundation_css %}
+    <link href="{% static "foundation/css/normalize.css" %}" rel="stylesheet"/>
+    <link href="{% static "foundation/css/foundation.min.css" %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    {% endblock foundation_css %}  
+    
+    {# Custom CSS #}
+    {% block css %}
+    <link href="{% static "foundation/css/style.css" %}" rel="stylesheet"/>
+    <link href="{% static "foundation/froala/css/froala_editor.min.css" %}" rel="stylesheet"/>
+    <link href="{% static "foundation/froala/css/froala_style.css" %}" rel="stylesheet"/>
+    <link href="{% static "foundation/froala/css/themes/custom-theme.css" %}" rel="stylesheet"/>
+    {% endblock css %}
+
+    {# Override if you need another version of modernizr #}
+    {% block foundation_modernizer %}
+    <script src="{% static "foundation/js/vendor/modernizr.js" %}"></script>
+    {% endblock foundation_modernizer %}
+
+    {# Custom head JS #}
+    {% block head_js %}
+    <script src="{% static "foundation/js/vendor/jquery.js" %}"></script>
+    <script src="{% static "foundation/js/vendor/main.js" %}"></script>
+    <script src="{% static "foundation/js/vendor/jquery-ui.js" %}"></script>
+
+    <script src="{% static "foundation/js/vendor/isotope.js" %}"></script>
+
+    <script src="{% static "foundation/froala/js/froala_editor.min.js" %}"></script>
+    <script src="{% static "foundation/froala/js/plugins/video.min.js" %}"></script>
+    <script src="{% static "foundation/froala/js/plugins/fullscreen.min.js" %}"></script>
+    {% endblock head_js %}
+    
+    {% block extrahead %}{% endblock %}
+
+	<!-- Top Bar Nav -->
+
+	<div class="contain-to-grid sticky red-background">
+		<nav class="top-bar red-background" data-topbar role="navigation" data-options="sticky_on: large">
+			<ul class="title-area">
+    				<li class="name"><h1><a href="{% url 'index' %}"><img class="logo" src="{% static "foundation/img/logo.png" %}" alt="Troca"></a></h1></li>
+    				<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+  			</ul>
+
+			<!-- Right Nav Section -->
+
+			  <section class="top-bar-section">
+			    <ul class="right">
+				{% if user.is_authenticated %}
+				{% postman_unread as unread_count %}
+
+				<li class="has-dropdown">
+					 <a href="/perfil/{{user.id}}">
+					     
+					     {% if user.userprofile.avatar_url.url_60x60 %}
+					       <img src="{{ user.userprofile.avatar_url.url_60x60 }}" class="img-user-small">
+					     {% else %}
+					       <img src="http://s22.postimg.org/sgwv8z7kx/url.jpg" class="img-user-small">
+					     {% endif %}
+					     
+					     {% if unread_count %}<span class="round label mss-notif"><strong>{{ unread_count }}</strong></span>{% endif %}  {{ user.username }}</a>
+					 <ul class="dropdown">
+					      <li><a href="/mensajes/inbox/">
+					          
+					          {% if unread_count > 1 %}
+					          <strong><i class="fa fa-envelope-o"></i> {{ unread_count }} Mensajes sin leer</strong>
+					          {% elif unread_count == 1 %}
+					           <strong><i class="fa fa-envelope-o"></i> {{ unread_count }} Mensaje sin leer</strong>
+					          {% else %}
+					           <i class="fa fa-inbox"></i> Mensajes
+					          {% endif %} 
+					          </a></li>
+					      <li><a href="/colaboraciones/{{user.username}}"><i class="fa fa-exchange"></i> Trueques</a></li>
+						  <li><a href="/configuracion/{{user.username}}"><i class="fa fa-cogs"></i> Configuración</a></li>
+						  <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> Cerrar sesión</a></li>
+					</ul>
+				</li>
+				{% else %}
+				
+					
+						<li><a href="{% url 'register' %}">Registrarse</a></li>
+						<li class="divider"></li>
+						<li><a href="{% url 'login' %}">Iniciar sesión</a></li>
+				    	
+				
+				{% endif %}
+			  </ul>
+
+
+		    	<!-- Left Nav Section -->
+
+		    	<ul class="left hide-for-medium-only">
+		      		<li><a href="/descubre/"><i class="fa fa-search title-icon ml8"></i>Descubre proyectos</a></li>
+					<li><a href="/crea/"><i class="fa fa-plus-circle title-icon ml8"></i>Crea un proyecto</a></li>
+					<li><a href="/encuentra/"><i class="fa fa-users title-icon ml8"></i>Conoce colaboradores</a></li>
+		    	</ul>
+
+				<ul class="left show-for-medium-only">
+				     <li><a href="/descubre/"><i class="fa fa-search title-icon"></i></a></li>
+					<li><a href="/crea/"><i class="fa fa-plus-circle title-icon"></i></a></li>
+					<li><a href="/encuentra/"><i class="fa fa-users title-icon"></i></a></li>
+
+			     </ul>
+
+		  </section>
+		</nav>
+	</div>
+
+	<!-- END / Top Bar Nav -->
+
+</head>
+<body {% block body_attr %}{% endblock body_attr %}>
+    {# Main content goes here #}
+    
+    <!-- Main block menu -->
+    {% block base_body %}
+    {% endblock base_body %}
+
+    {# Custom JS #}
+
+    {% block body_js %}{% endblock body_js %}
+    
+    {# Foundation JS #}
+    {% block foundation_js %}
+    <script src="{% static "foundation/js/foundation.min.js" %}"></script>
+    {% endblock foundation_js %}
+    
+    {# Init Foundation #}
+    {% block foundation_js_init %}
+    <script>
+        $(document).foundation();
+    </script>
+    {% endblock foundation_js_init %}
+</body>
+<footer>
+	<!-- Footer -->
+	
+	<div class="foot-nav red-background white-main">
+
+		<div class="row">
+		<div class="small-4 large-4 columns">
+			<ul class="no-bullet">
+			  <li><p><b>SOBRE TROCA</b></p></li>
+			  <li><a class="a-white" href="{% url 'about' %}"><p>Qué es Troca</p></a></li>
+			  <li><a class="a-white" href="{% url 'ourpeople' %}"><p>Quiénes somos</p></a></li>
+			  <li><a class="a-white" href="http://troca.ml/proyecto/genitor06/trocabeta/"><p>Voluntariado</p></a></li>
+			</ul>
+		</div>
+		<div class="small-4 large-4 columns">
+			<ul class="no-bullet">
+			  <li><p><b>NAVEGACIÓN</b></p></li>
+			  <li><a class="a-white" href="/descubre/"><p>Descubre proyectos</p></a></li>
+			  <li><a class="a-white" href="/crea/"><p>Crea un proyecto</p></a></li>
+			  <li><a class="a-white" href="/encuentra/"><p>Conoce colaboradores</p></a></li>
+			</ul>
+		</div>
+		  <div class="small-4 large-4 columns">
+			<ul class="no-bullet">
+			  <li><p><b>REDES SOCIALES</b></p></li>
+			  <li><a class="a-white" href="https://www.facebook.com/trocabeta"><p>Facebook</p></a></li>
+			  <li><a class="a-white" href="#"><p>Twitter</p></a></li>
+			  <li><a class="a-white" href="#"><p>Github</p></a></li>
+			</ul>
+		</div>
+
+		</div>
+	</div>
+
+<div class="black-bkg">
+	<div class="row text-center padrl15">
+	    
+		<h1><a href="/"><img class="logo" src="{% static "foundation/img/logo2white.png" %}" alt="Troca"></a></h1>
+		<p class="white-main">Troca está hecha bajo la licencia <b>Creative Commons Reconocimiento-NoComercial 4.0</b></p>
+		<p class="white-main">Una página de <b><a href="https://www.behance.net/jovencoda">Bulls & Brothers</a></b></p>			    
+
+	</div>
+</div>
+
+</footer>
+</html>

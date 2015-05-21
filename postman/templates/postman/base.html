@@ -1,0 +1,38 @@
+{% extends "foundation/base.html" %}
+{% load i18n %}{% load postman_tags %}
+
+{% block title %}troca.beta | {% trans "Messaging" %}{% endblock %}
+
+{% block extrahead %}{{ block.super }}
+<link type="text/css" media="all" rel="stylesheet" href="
+{# dj v1.4 #}{% load static %}{% static 'postman/css/postman.css' %}
+{# dj v1.3 #}{# {{ STATIC_URL }}postman/css/postman.css #}
+{# dj v1.2 #}{# {{ MEDIA_URL }}postman/css/postman.css #}
+" />{% endblock %}
+
+{% block base_body %}
+
+    {% block postman_menu %}
+        <div class="botborder" >
+         <div class="row ptb25 mrl20" id="menu">
+            <h1>Buzón de mensajes</h1>
+            <dl class="sub-nav" >{% postman_unread as unread_count %}
+             <dd class="active"><a href="{% url 'postman_inbox' %}">{% trans "Recibidos" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></dd>
+             <dd><a href="{% url 'postman_sent' %}">{% trans "Mensajes enviados" %}</a></dd>
+             <dd><a href="{% url 'postman_write' %}">{% trans "Escribe" %}</a></dd>
+             <dd><a href="{% url 'postman_archives' %}">{% trans "Archivo" %}</a></dd>
+             <dd><a href="{% url 'postman_trash' %}">{% trans "Papelera" %}</a></dd>
+            </dl>
+        </div>
+    </div>
+    {% endblock %}
+    
+    <div class="bkg-white-main">
+        <div id="container" class="row pb25">   
+        {% block content %}
+        {% endblock content %}
+        </div>
+    </div>
+    
+{% endblock base_body %}
+

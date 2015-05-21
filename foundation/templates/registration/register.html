@@ -1,0 +1,23 @@
+{% extends "foundation/base.html" %}
+{% load crispy_forms_tags %}
+{% block base_body %}
+
+<!-- TOP BANNER DETAILS -->
+
+<div class="botborder" >
+    <div class="row ptb25 text-center">
+        
+        <h1>Registro</h1>
+        <p class="paragraph">¡Unos pasos más y serás parte de esta increíbe comunidad!</p>
+
+    </div>
+</div>
+<div class="bkg-white-main" >
+    <div class="row pb25">
+        {% csrf_token %}
+        {% crispy form %}
+    </div>
+</div>
+
+
+{% endblock base_body %}

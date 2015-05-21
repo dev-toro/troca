@@ -1,0 +1,53 @@
+<div class="row mb40">
+      
+	<div class="panel selected-project white-main">
+		<div class="row mrl0">
+			<div class="large-8 medium-8 columns padr0">
+			    <a href="proyecto/{{ object.user }}/{{ object.slug }}">
+				    <div class="img-container-panel" style="background-image: url('{{ object.thumbnail_url.url_700x700 }}');"></div>
+				</a>
+			</div>
+			<div class="large-4 medium-4 columns text-container-panel">
+				<div class="pad10">
+                        {% load phileo_tags %}
+					   <h3><a href="/proyecto/{{ object.user }}/{{ object.slug }}" class="black-a">{{ object.title }}</a> <small>
+                        {% if user.is_authenticated %} 
+                            {% ifequal user.username author_user.username %}
+                                <span data-tooltip aria-haspopup="true" class="has-tip"title="Editar el proyecto">
+                                    <a href="/proyecto/editar/{{ author_user.username }}/{{ object.slug }}"><i class="fa fa-pencil-square-o red-main"></i></a>
+                                </span>
+                            {% endifequal %}
+                        {% endif %} 
+                        
+                        <a><i id="like" class="fa fa-heart-o"></i></a> {{ object|likes_count }}</small></h3>
+
+						<h6 class="subheader small">Publicado por <a class="user-link">{{ object.user }}</a></h6>
+                        <p>{{ object.summary }}</p>
+
+						<div class="progress"><span class="meter" style="width: {{ object.num_needs }}%"></span></div>
+						
+						<div class="botborder">
+						
+    						<ul class="no-bullet"> 
+    							<li><p class="small"><i class="fa fa-check-square-o"></i>
+     El proyecto ha suplido el {{ object.num_needs }}% de sus necesidades</p></li>
+    							<li><p class="small"><i class="fa fa-calendar"></i>
+     El proyecto termina en {{ object.expire_date|timeuntil }}</p></li>
+    						</ul>
+						
+						</div>
+						
+					<h6 class="mt10"><i class="fa fa-tags "></i> Necesidades:</h6>
+  
+                      <ul class="inline-list"> 
+                        {% for cat in object.category.all %}
+                            <li class="label-cat"><span class="radius label secondary"><a href="#">{{ cat.title }}</a></span></li> 
+                        {% endfor %}
+                    </ul>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

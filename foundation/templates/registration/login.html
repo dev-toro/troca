@@ -1,0 +1,22 @@
+{% extends "foundation/base.html" %}
+{% load crispy_forms_tags %}
+{% block base_body %}
+
+<!-- TOP BANNER DETAILS -->
+
+<div class="botborder" >
+    <div class="row ptb25 text-center">
+        
+        <h1>Iniciar sesión</h1>
+        <p class="paragraph">¡Que bueno tenerte de vuelta!</p>
+
+    </div>
+</div>
+<div class="bkg-white-main" >
+    <div class="row pb25">
+        {% csrf_token %}
+        {% crispy form %}
+    </div>
+</div>
+
+{% endblock base_body %}

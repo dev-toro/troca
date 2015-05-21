@@ -1,0 +1,53 @@
+{% extends "foundation/base.html" %}
+
+{% block title %}troca.beta | Colaboraciones {% endblock title %}
+
+{% block base_body %}
+
+{% block cat_header %}
+<div class="botborder" >
+     <div class="row ptb25 mrl20">
+        <h1>Colaboraciones</h1>
+        <p class="paragraph">¡Bien hecho <b>{{ user.username }}</b>! El siguiente paso es ponerse en contacto:</p>
+    </div>
+</div>
+{% endblock cat_header %}
+
+<div class="bkg-white-main">
+
+     <div id="container" class="row mb40"> 
+           
+        {% for colab in object_list %} 
+            {% include "foundation/trueques_view_page.html" with object=colab %}
+        {% empty %}
+            <h6 class="subheader mtb25 text-center"><i class="fa fa-child"></i> Aún no has realizado ningún intercambio</h6>
+        {% endfor %} 
+        
+        {% if isDonation %}
+            {% for key, values in donation.items %}
+                {% for x in values %}
+                    {% include "foundation/trueques_view_page_donations.html" with user_profile=key colab=x %}
+                {% endfor %}
+            {% empty %}
+                <h6 class="subheader mtb25 text-center"><i class="fa fa-child"></i> Aún no has realizado ningún intercambio</h6>
+            {% endfor %}  
+        {% endif %}
+        
+    </div>
+    
+        {% include "foundation/_pagination.html"  %}   
+    
+</div>
+
+
+    <script type="text/javascript">
+    
+        // ------ Start isotope
+    
+    $('#container').isotope({
+        itemSelector: '.project_container',
+    });
+
+    </script>
+
+{% endblock base_body %}

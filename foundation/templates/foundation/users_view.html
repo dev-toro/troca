@@ -1,0 +1,91 @@
+{% extends "foundation/base.html" %}
+
+{% block title %}troca.beta | Conoce colaboradores{% endblock title %}
+
+{% block base_body %}
+
+{% block cat_header %}
+<div class="botborder" >
+      <div class="row ptb25 mrl20">
+        <h1>Conoce colaboradores</h1>
+        <p class="paragraph">Directorio de colaboradores de Troca, conoce gente como tú</p>
+    </div>
+</div>
+{% endblock cat_header %}
+
+<div class="bkg-white-main">
+    
+    <div id="sorts" class="row sub-filter">
+        <dl class="sub-nav right"> 
+            <dt><i class="fa fa-sort"></i> Ordenar:</dt> 
+            <dd data-sort-by="date" class="active"><a>Recientes</a></dd> 
+            <dd data-sort-by="rate" ><a>Puntaje</a></dd> 
+        </dl>
+    </div>
+    
+        
+     <div id="container" class="row mb40">   
+    
+        {% for x in object_list %} 
+        {% include "foundation/user_view_page.html" with object=x  %}
+        {% endfor %} 
+        
+    </div>
+    
+        {% include "foundation/_pagination.html"  %}
+    
+</div>
+
+    <script type="text/javascript">
+    
+    $('#container').isotope({
+        itemSelector: '.project_container',
+          getSortData: {
+            rate: '.rate parseInt',
+             date: function( itemElem ) { // function
+              var _date = $( itemElem ).find('.date').text();
+              return Date.parse(_date);
+            }
+            }
+    });
+    
+    $( document ).ready(function() {
+        
+        $('#container').isotope({ sortBy : 'date', sortAscending: false });
+        
+        // ------ FIX || Display only one alert of colaboration
+                                        
+        $( ".colabOptions" ).each(function( index ) {
+                                            
+            $( this ).children().first().removeClass('hidden');
+                                        
+        });
+        
+        // ------ HOVER || on every poject main image
+        
+        $( ".img-container2-panel" ).each(function( index ) {
+                                            
+            $( this ).hover(function() {
+                    $( this ).find(".overlay").fadeIn();
+                }, function() {
+                    $( this ).find(".overlay").fadeOut();
+                }
+            );
+                                        
+        });
+        
+    });
+    
+    
+    
+    $('#sorts').on( 'click', 'dd', function() {
+      $('#sorts').find("dd").removeClass("active")
+      $(this).addClass( "active" )
+      var sortByValue = $(this).attr('data-sort-by');
+      $('#container').isotope({ sortBy: sortByValue, sortAscending: false });
+    });
+        
+
+    </script>
+
+{% endblock base_body %}

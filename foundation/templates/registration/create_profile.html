@@ -1,0 +1,35 @@
+{% extends "foundation/base.html" %}
+
+{% block title %}troca.beta | Crear perfil{% endblock title %}
+
+{% load crispy_forms_tags %}
+
+{% block base_body %}
+
+<!-- TOP BANNER DETAILS -->
+
+<div class="botborder" >
+    <div class="row ptb25 mrl20">
+        
+        <h1>¡Registro completo!</h1>
+        <p class="paragraph">Ahora para garantizar mejores resultado completa la información de tu perfil</a></p>
+
+    </div>
+</div>
+<div class="bkg-white-main" >
+    <div class="row pb25">
+        
+        {% if state %} 
+            <div data-alert class="alert-box info radius">
+                ¡Los cambios de han guardado con éxito! :)
+              <a href="#" class="close">&times;</a>
+            </div>
+        {% endif %}
+    
+    
+        {% crispy form %}
+        
+    </div>
+</div>
+
+{% endblock base_body %}

@@ -1,0 +1,45 @@
+{% load staticfiles %}
+
+<!DOCTYPE html> 
+
+<html class="no-js" lang="en" > 
+	<head> 
+		<meta charset="utf-8"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<link rel="stylesheet" href="static/css/foundation.css">
+    		<link rel="stylesheet" href="css/app.css">
+    		<script src="js/vendor/modernizr.js"></script>
+		<script src="js/vendor/modernizr.js"></script> 
+
+		{% block head_block %}
+		   {% include "core/_header.html" %}
+		{% endblock %}
+
+	</head> 
+	<body> 
+
+		{% block body_block %}
+		{% endblock %}
+
+	</body> 
+	<footer>
+		{% block footer %}
+		    {% include "core/_footer.html" %}
+		{% endblock %}
+
+		<script src="js/vendor/jquery.js"></script> 
+		<script src="js/foundation.min.js"></script> 
+		<!--<script> $(document).foundation(); </script> --> 
+	</footer>
+</html>
+
+
+
+
+
+
+
+
+
+
+

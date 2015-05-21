@@ -1,0 +1,66 @@
+<div class="large-12 medium-12 project_container columns">
+    <div class="panel radius white-main">
+        <div class="row">
+            <div class="large-6 columns">
+                
+               {% for key, values in colabsProfiles.items %}
+                        {% ifequal key.username object.username %}
+                            {% for x in values %}
+            
+                            <ul class="inline-list mb15">
+                                <li><a href="/perfil/{{ x.id }}"> <div class="img-container-user" style="background-image: url('{{ x.avatar_url.url_700x700 }}');"></div> </a></li>
+                                <li><a href="/perfil/{{ object.id }}"> <h4 class="mb0 user-link">{{ object.username }} <small> <i class="fa fa-heart-o"></i> {{ x.rate }} </small></h4> </a><p class="mb0 subheader">{{ object.first_name }} {{ object.last_name }}</p></li>
+                            </ul>
+                            
+                            <h4><small>Información de contacto</small></h4>
+                            <ul class="no-bullet">
+                                <li class="h-divider"></li>
+                                <li><p><i class="fa fa-envelope-o blue-main"></i> <a href="mailto:{{ object.email }}">{{ object.email }}</a></p></li>
+                                {% if x.facebook %}<li><p><i class="fa fa-facebook-official blue-main"></i> <a href="{{ x.facebook }}">Facebook </a></p></li>{% endif %}
+                                {% if x.twitter %}<li><p><i class="fa fa-twitter blue-main"></i> <a  href="{{ x.twitter }}">Twitter </a></p>{% endif %}</li>
+                            </ul>
+            
+                            {% endfor %}
+                        {% endifequal %}
+                {% endfor %}  
+
+                <a href="{% url 'postman_write' object.username  %}" class="button radius">Contactar</a>
+                <a href="/colaboraciones/eliminar/{{ object.username }}" class="button radius secondary"><i class="fa fa-trash-o"></i> Eliminar</a>
+                                
+            </div>
+            
+            <!--- part 2 -->
+            <<div class="large-6 columns">
+                <h4><small>Colaboraciones salientes</small></h4>
+                <ul class="no-bullet">
+
+                    {% for x in userColabs.all %}
+                        {% ifequal x.project.user.username object.username %}
+                        <li class="h-divider"></li>
+                        <li><p class="small"><i class="fa fa-calendar"></i> {{ x.date }}</p></li>
+                        <li><p><i class="fa fa-long-arrow-right red-main"></i> Prestas el servicio de <strong>{{ x.collaboratorSkill }}</strong> en el proyecto <strong>{{ x.project }}</strong></p></li>
+                        {% endifequal %}
+                    {% empty %}
+                    <li><p>Ninguna</p></li>
+                    {% endfor %}
+
+                </ul>
+                <h4><small>Colaboraciones entrantes</small></h4>
+                <ul class="no-bullet">
+                    {% for key, values in revColabs.items %}
+                        {% for x in values %}
+    
+                            {% ifequal x.collaborator.username object.username %}
+                            <li class="h-divider"></li>
+                            <li><p class="small"><i class="fa fa-calendar"></i> {{ x.date }}</p></li>
+                            <li><p><i class="fa fa-long-arrow-left red-main"></i> Recibes el servicio de <strong>{{ x.collaboratorSkill }}</strong> en el proyecto <strong>{{ x.project }}</strong></p></li>
+                            {% endifequal %}
+                        
+                        {% endfor %}
+                    {% endfor %}
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

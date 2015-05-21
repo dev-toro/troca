@@ -1,0 +1,54 @@
+{% extends "postman/base.html" %}
+{% load i18n %}
+{% block extrahead %}{{ block.super }}
+{% if autocompleter_app.is_active %}
+{# dj v1.4 #}{% load static %}
+<script type="text/javascript"src="
+{# using the available admin jQuery is enough: #}
+ {# dj v1.4 #}{% static 'admin/js/jquery.min.js' %}
+ {# dj v1.2/3 #}{# {% load adminmedia %}{% admin_media_prefix %}js/jquery.min.js #}
+{# unless you really want your own: #}
+ {# dj v1.2 #}{# {{ MEDIA_URL }}js/jquery.min.js #}
+"></script>
+{% if autocompleter_app.name == "ajax_select" %}{% if autocompleter_app.version == "1.1.4" or autocompleter_app.version == "1.1.5" %}<script type="text/javascript" src="
+{# dj v1.4 #}{% static 'js/jquery.autocomplete.min.js' %}
+{# dj v1.3 #}{# {{ STATIC_URL }}js/jquery.autocomplete.min.js #}
+{# dj v1.2 #}{# {{ MEDIA_URL }}js/jquery.autocomplete.min.js #}
+"></script>
+<link type="text/css" media="all" rel="stylesheet" href="
+{# dj v1.4 #}{% static 'css/jquery.autocomplete.css' %}
+{# dj v1.3 #}{# {{ STATIC_URL }}css/jquery.autocomplete.css #}
+{# dj v1.2 #}{# {{ MEDIA_URL }}css/jquery.autocomplete.css #}
+" />{# else: for version 1.2.x use AJAX_SELECT_BOOTSTRAP + AJAX_SELECT_INLINES or arrange to include jqueryUI/js/css #}{% endif %}{% endif %}
+{% endif %}
+{% endblock %}
+
+    {% block postman_menu %}
+        <div class="botborder" >
+         <div class="row ptb25 mrl20" id="menu">
+            <h1>Buzón de mensajes</h1>
+            <dl class="sub-nav" >
+             <dd><a href="{% url 'postman_inbox' %}">{% trans "Recibidos" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></dd>
+             <dd><a href="{% url 'postman_sent' %}">{% trans "Mensajes enviados" %}</a></dd>
+             <dd class="active"><a href="{% url 'postman_write' %}">{% trans "Escribe" %}</a></dd>
+             <dd><a href="{% url 'postman_archives' %}">{% trans "Archivo" %}</a></dd>
+             <dd><a href="{% url 'postman_trash' %}">{% trans "Papelera" %}</a></dd>
+            </dl>
+        </div>
+    </div>
+    {% endblock %}
+
+{% block content %}
+
+<div id="postman" class="mrl20 mt25">
+<h4>{% block pm_write_title %}{% endblock %}</h4>
+<form action="{% if next_url %}?next={{ next_url|urlencode }}{% endif %}" method="post">{% csrf_token %}
+<table>
+{% block pm_write_recipient %}{% endblock %}
+{{ form.as_table }}
+</table>
+<button class="button radius" type="submit">{% trans "Send" %}</button>
+</form>
+</div>
+
+{% endblock %}
